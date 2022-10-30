@@ -1,0 +1,23 @@
+{
+  "name": "ggg-pay-sdk",
+  "version": "1.0.0",
+  "description": "ggg-pay-sdk",
+  "private": true,
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "//": "dev 为nodejs启动命令，在终端我们可以直接用命令 npm start 即可启动。",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.13.4",
+    "koa-body": "^5.0.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.1.1"
+  },
+  "devDependencies": {
+  }
+}
