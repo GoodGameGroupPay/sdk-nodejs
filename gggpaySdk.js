@@ -38,7 +38,7 @@ export function recharge(orderId, amount, currency, payMethod, customerName, cus
                 callback({ code: 0, message: 'token is null' });
                 return;
             }
-            let requestUrl = "gggpay/createOrder";
+            let requestUrl = "gggpay/v1/createPayment";
             let cnst = generateConstant(requestUrl);
             let bodyJson = "{\"customer\":{\"email\":\"" + customerEmail + "\",\"name\":\"" + customerName + "\",\"phone\":\"" + customerPhone + "\"},\"method\":\"" + payMethod + "\",\"order\":{\"additionalData\":\"\",\"amount\":\"" + amount + "\",\"currencyType\":\"" + (isnull(currency) ? "MYR" : currency) + "\",\"id\":\"" + orderId + "\",\"title\":\"Payment\"}}";
             let base64ReqBody = sortedAfterToBased64(bodyJson);
@@ -112,7 +112,7 @@ export function withdraw(orderId, amount, currency, bankCode, cardholder, accoun
                 callback({ code: 0, message: 'token is null' });
                 return;
             }
-            let requestUrl = "gggpay/withdrawRequest";
+            let requestUrl = "gggpay/v1/withdrawRequest";
             let cnst = generateConstant(requestUrl);
             let bodyJson = "{\"order\":{\"amount\":\"" + amount.toString() + "\",\"currencyType\":\"" + (isnull(currency) ? "MYR" : currency) + "\",\"id\":\"" + orderId + "\"},\"recipient\":{\"email\":\"" + recipientEmail + "\",\"methodRef\":\"" + refName + "\",\"methodType\":\"" + bankCode + "\",\"methodValue\":\"" + accountNumber + "\",\"name\":\"" + cardholder + "\",\"phone\":\"" + recipientPhone + "\"}}";
             let base64ReqBody = sortedAfterToBased64(bodyJson);
@@ -180,7 +180,7 @@ export function detail(orderId, type, callback) {
                 callback({ code: 0, message: 'token is null' });
                 return;
             }
-            let requestUrl = "gggpay/getTransactionStatusById";
+            let requestUrl = "gggpay/v1/getTransactionStatusById";
             let cnst = generateConstant(requestUrl);
             let bodyJson = "{\"transactionId\":\"" + orderId + "\",\"type\":" + type + "}";
             let base64ReqBody = sortedAfterToBased64(bodyJson);
@@ -237,7 +237,7 @@ function getToken(callback) {
         let authString = stringToBase64(`${gggpayCfg.CLIENT_ID}:${gggpayCfg.CLIENT_SECRET}`);
         EncryptAuthInfo = publicEncrypt(authString);
     }
-    post('gggpay/createToken', "", "", {
+    post('gggpay/v1/createToken', "", "", {
         data: EncryptAuthInfo,
     }, "", "", function (result) {
         if (isnull(result) || isnull(result.encryptedToken) && result.code !== 1) {
