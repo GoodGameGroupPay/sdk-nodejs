@@ -3,6 +3,11 @@
 //-- begin config --------------------------------------------------------------------------------
 
 /**
+ * Api Version Number
+ */
+export const VERSION_NO = "v1";
+
+/**
  * GGGPay Api Url
  */
 export const BASE_URL = "http://localhost:3000/";
@@ -70,6 +75,7 @@ export const PRIVATE_KEY = "-----BEGIN RSA PRIVATE KEY-----\n" +
 
 /**
  * initialize this configuration
+ * @param {*} verNo GGGPay Api Version Number
  * @param {*} apiUrl apiUrl GGGPay Api Url
  * @param {*} appId appId in developer settings : App Id
  * @param {*} key key in developer settings : Key
@@ -77,7 +83,8 @@ export const PRIVATE_KEY = "-----BEGIN RSA PRIVATE KEY-----\n" +
  * @param {*} serverPubKey serverPubKey in developer settings : Server Public Key
  * @param {*} privateKey privateKey in developer settings : Private Key
  */
-export function init(apiUrl, appId, key, secret, serverPubKey, privateKey) {
+export function init(verNo, apiUrl, appId, key, secret, serverPubKey, privateKey) {
+    VERSION_NO = verNo;
     BASE_URL = apiUrl;
     CLIENT_ID = appId;
     CLIENT_SYMMETRIC_KEY = key;
