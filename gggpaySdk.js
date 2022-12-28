@@ -20,7 +20,7 @@ const HASH_ALGORITHM = "rsa-sha256";
 var EncryptAuthInfo = null;
 
 /**
- * user recharge
+ * user deposit
  * @param {*} orderId orderId order number - maxlength(40)
  * @param {*} amount amount order amount - maxlength(20)
  * @param {*} currency currency Empty default: MYR - maxlength(16)
@@ -31,7 +31,7 @@ var EncryptAuthInfo = null;
  * @param {*} callback function
  * @returns code,message,paymentUrl,transactionId
  */
-export function recharge(orderId, amount, currency, payMethod, customerName, customerEmail, customerPhone, callback) {
+export function deposit(orderId, amount, currency, payMethod, customerName, customerEmail, customerPhone, callback) {
     try {
         getToken((token) => {
             if (isnull(token)) {
@@ -69,7 +69,7 @@ export function recharge(orderId, amount, currency, payMethod, customerName, cus
 }
 
 /**
- * user recharge
+ * user deposit
  * @param {*} orderId orderId order number - maxlength(40)
  * @param {*} amount amount order amount - maxlength(20)
  * @param {*} currency currency Empty default: MYR - maxlength(16)
@@ -79,10 +79,10 @@ export function recharge(orderId, amount, currency, payMethod, customerName, cus
  * @param {*} customerPhone customerPhone customer phone - maxlength(20)
  * @returns code,message,paymentUrl,transactionId
  */
-export async function rechargeAsync(orderId, amount, currency, payMethod, customerName, customerEmail, customerPhone) {
+export async function depositAsync(orderId, amount, currency, payMethod, customerName, customerEmail, customerPhone) {
     return new Promise(async (resolve, reject) => {
         try {
-            recharge(orderId, amount, currency, payMethod, customerName, customerEmail, customerPhone, (result) => {
+            deposit(orderId, amount, currency, payMethod, customerName, customerEmail, customerPhone, (result) => {
                 return resolve(result);
             });
         } catch (error) {
@@ -168,9 +168,9 @@ export async function withdrawAsync(orderId, amount, currency, bankCode, cardhol
 }
 
 /**
- * User recharge and withdrawal details
+ * User deposit and withdrawal details
  * @param {*} orderId transaction id
- * @param {*} type 1 recharge,2 withdrawal
+ * @param {*} type 1 deposit,2 withdrawal
  * @param {*} callback callback
  */
 export function detail(orderId, type, callback) {
@@ -211,9 +211,9 @@ export function detail(orderId, type, callback) {
 }
 
 /**
- * User recharge and withdrawal details
+ * User deposit and withdrawal details
  * @param {*} orderId transaction id
- * @param {*} type 1 recharge,2 withdrawal
+ * @param {*} type 1 deposit,2 withdrawal
  * @returns code,message,transactionId,amount,fee
  */
 export async function detailAsync(orderId, type) {
@@ -397,7 +397,7 @@ function symEncrypt(message) {
  * @param {*} encryptedMessage The data that needs to be encryptedMessage, the result encrypted by symEncrypt can be decrypted
  * @returns Return the data content of utf-8 after decryption
  */
-function symDecrypt(encryptedMessage) {
+export function symDecrypt(encryptedMessage) {
     let encryptedText = hexToBytes(encryptedMessage);
     // 解密
     let iv = generateIv(gggpayCfg.CLIENT_SYMMETRIC_KEY);
