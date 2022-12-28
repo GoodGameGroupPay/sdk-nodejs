@@ -9,9 +9,9 @@ import { deposit, depositAsync, withdraw, withdrawAsync, detail, detailAsync,sym
 
 export async function test() {
 
-    // dictionary list
+    // docs : https://doc.gggpay.org/docs/quickstart/setup
     // payment-method: https://doc.gggpay.org/docs/appendix/payment-method
-    // 
+    // dictionary : https://doc.gggpay.org/docs/appendix/dictionary
 
     // initialize this configuration
     // verNo GGGPay Api Version Number, default: v1
