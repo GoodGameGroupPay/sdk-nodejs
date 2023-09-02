@@ -40,7 +40,11 @@ export function deposit(orderId, amount, currency, payMethod, customerName, cust
             }
             let requestUrl = "gggpay/" + gggpayCfg.VERSION_NO + "/createPayment";
             let cnst = generateConstant(requestUrl);
+            // If callbackUrl and redirectUrl are empty, take the values ​​of [curl] and [rurl] in the developer center.
+            // Remember, the format of json and the order of json attributes must be the same as the SDK specifications.
+            // The sorting rules of Json attribute data are arranged from [a-z]
             let bodyJson = "{\"customer\":{\"email\":\"" + customerEmail + "\",\"name\":\"" + customerName + "\",\"phone\":\"" + customerPhone + "\"},\"method\":\"" + payMethod + "\",\"order\":{\"additionalData\":\"\",\"amount\":\"" + amount + "\",\"currencyType\":\"" + (isnull(currency) ? "MYR" : currency) + "\",\"id\":\"" + orderId + "\",\"title\":\"Payment\"}}";
+            //let bodyJson = "{\"callbackUrl\":\"https://www.google.com\",\"customer\":{\"email\":\"" + customerEmail + "\",\"name\":\"" + customerName + "\",\"phone\":\"" + customerPhone + "\"},\"method\":\"" + payMethod + "\",\"order\":{\"additionalData\":\"\",\"amount\":\"" + amount + "\",\"currencyType\":\"" + (isnull(currency) ? "MYR" : currency) + "\",\"id\":\"" + orderId + "\",\"title\":\"Payment\"},\"redirectUrl\":\"https://www.google.com\"}";
             let base64ReqBody = sortedAfterToBased64(bodyJson);
             let signature = createSignature(cnst, base64ReqBody);
             let encryptData = symEncrypt(base64ReqBody);
@@ -114,7 +118,11 @@ export function withdraw(orderId, amount, currency, bankCode, cardholder, accoun
             }
             let requestUrl = "gggpay/" + gggpayCfg.VERSION_NO + "/withdrawRequest";
             let cnst = generateConstant(requestUrl);
+            // payoutspeed contain "fast", "normal", "slow" ,default is : "fast"
+            // Remember, the format of json and the order of json attributes must be the same as the SDK specifications.
+            // The sorting rules of Json attribute data are arranged from [a-z]
             let bodyJson = "{\"order\":{\"amount\":\"" + amount.toString() + "\",\"currencyType\":\"" + (isnull(currency) ? "MYR" : currency) + "\",\"id\":\"" + orderId + "\"},\"recipient\":{\"email\":\"" + recipientEmail + "\",\"methodRef\":\"" + refName + "\",\"methodType\":\"" + bankCode + "\",\"methodValue\":\"" + accountNumber + "\",\"name\":\"" + cardholder + "\",\"phone\":\"" + recipientPhone + "\"}}";
+            //let bodyJson = "{\"order\":{\"amount\":\"" + amount.toString() + "\",\"currencyType\":\"" + (isnull(currency) ? "MYR" : currency) + "\",\"id\":\"" + orderId + "\"},\"payoutspeed\":\"normal\",\"recipient\":{\"email\":\"" + recipientEmail + "\",\"methodRef\":\"" + refName + "\",\"methodType\":\"" + bankCode + "\",\"methodValue\":\"" + accountNumber + "\",\"name\":\"" + cardholder + "\",\"phone\":\"" + recipientPhone + "\"}}";
             let base64ReqBody = sortedAfterToBased64(bodyJson);
             let signature = createSignature(cnst, base64ReqBody);
             let encryptData = symEncrypt(base64ReqBody);
@@ -182,6 +190,9 @@ export function detail(orderId, type, callback) {
             }
             let requestUrl = "gggpay/" + gggpayCfg.VERSION_NO + "/getTransactionStatusById";
             let cnst = generateConstant(requestUrl);
+            // Remember, the format of json and the order of json attributes must be the same as the SDK specifications.
+            // The sorting rules of Json attribute data are arranged from [a-z]
+            // type : 1 deposit,2 withdrawal
             let bodyJson = "{\"transactionId\":\"" + orderId + "\",\"type\":" + type + "}";
             let base64ReqBody = sortedAfterToBased64(bodyJson);
             let signature = createSignature(cnst, base64ReqBody);
