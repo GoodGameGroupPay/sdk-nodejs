@@ -1,13 +1,13 @@
 'use strict';
 
 
-import { init } from './gggpayCfg.js';
+import { init } from './gatewayCfg.js';
 
-import { recharge, rechargeAsync, withdraw, withdrawAsync, detail, detailAsync } from './gggpaySdk.js';
+import { recharge, rechargeAsync, withdraw, withdrawAsync, detail, detailAsync } from './gatewaySdk.js';
 
 
 /**
- * Here is an example of a gggpay sdk
+ * Here is an example of a gateway sdk
  */
  
 
@@ -15,7 +15,7 @@ export async function test() {
 
     // initialize this configuration
     
-    // apiUrl GGGPay Api Url
+    // apiUrl gateway Api Url
     
     // appId in developer settings : App Id
     
@@ -33,7 +33,7 @@ export async function test() {
     
     // return recharge result: code=1,message=,transactionId=12817291,paymentUrl=https://www.xxxx...
     
-    recharge("10001", 1.06, "MYR", "TNG_MY", "GGGPay Test", "gggpay@hotmail.com", "0123456789", (result) => {
+    recharge("10001", 1.06, "MYR", "TNG_MY", "gateway Test", "gateway@hotmail.com", "0123456789", (result) => {
         console.log("recharge result:", result);
     });
 
@@ -41,7 +41,7 @@ export async function test() {
     
     // return withdraw result: code=1,message=,transactionId=12817291
     
-    withdraw("10012", 1.06, "MYR", "CIMB", "GGGPay Test", "234719327401231", "", "gggpay@hotmail.com", "0123456789", (result) => {
+    withdraw("10012", 1.06, "MYR", "CIMB", "gateway Test", "234719327401231", "", "gateway@hotmail.com", "0123456789", (result) => {
         console.log("withdraw result:", result);
     });
 
@@ -55,13 +55,13 @@ export async function test() {
 
     // Here is an example of a async recharge 
     
-    let rechargeResult = await rechargeAsync("10001", 1.06, "MYR", "TNG_MY", "GGGPay Test", "gggpay@hotmail.com", "0123456789");
+    let rechargeResult = await rechargeAsync("10001", 1.06, "MYR", "TNG_MY", "gateway Test", "gateway@hotmail.com", "0123456789");
     
     console.log("async recharge result:", rechargeResult);
 
     // Here is an example of a async withdraw 
     
-    let withdrawResult = await withdrawAsync("10012", 1.06, "MYR", "CIMB", "GGGPay Test", "234719327401231", "", "gggpay@hotmail.com", "0123456789");
+    let withdrawResult = await withdrawAsync("10012", 1.06, "MYR", "CIMB", "gateway Test", "234719327401231", "", "gateway@hotmail.com", "0123456789");
     
     console.log("async withdraw result:", withdrawResult);
 

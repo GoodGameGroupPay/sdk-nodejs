@@ -1,7 +1,7 @@
 {
-  "name": "ggg-pay-sdk",
+  "name": "gateway-sdk",
   "version": "1.0.0",
-  "description": "ggg-pay-sdk",
+  "description": "gateway-sdk",
   "private": true,
   "main": "index.js",
   "type": "module",

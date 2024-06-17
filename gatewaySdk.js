@@ -2,7 +2,7 @@
 
 import http from 'http';
 import crypto from 'crypto';
-import * as gggpayCfg from './gggpayCfg.js';
+import * as gatewayCfg from './gatewayCfg.js';
 
 /**
  * rsa algorithm
@@ -38,7 +38,7 @@ export function deposit(orderId, amount, currency, payMethod, customerName, cust
                 callback({ code: 0, message: 'token is null' });
                 return;
             }
-            let requestUrl = "gggpay/" + gggpayCfg.VERSION_NO + "/createPayment";
+            let requestUrl = "gateway/" + gatewayCfg.VERSION_NO + "/createPayment";
             let cnst = generateConstant(requestUrl);
             // If callbackUrl and redirectUrl are empty, take the values ​​of [curl] and [rurl] in the developer center.
             // Remember, the format of json and the order of json attributes must be the same as the SDK specifications.
@@ -116,7 +116,7 @@ export function withdraw(orderId, amount, currency, bankCode, cardholder, accoun
                 callback({ code: 0, message: 'token is null' });
                 return;
             }
-            let requestUrl = "gggpay/" + gggpayCfg.VERSION_NO + "/withdrawRequest";
+            let requestUrl = "gateway/" + gatewayCfg.VERSION_NO + "/withdrawRequest";
             let cnst = generateConstant(requestUrl);
             // payoutspeed contain "fast", "normal", "slow" ,default is : "fast"
             // Remember, the format of json and the order of json attributes must be the same as the SDK specifications.
@@ -188,7 +188,7 @@ export function detail(orderId, type, callback) {
                 callback({ code: 0, message: 'token is null' });
                 return;
             }
-            let requestUrl = "gggpay/" + gggpayCfg.VERSION_NO + "/getTransactionStatusById";
+            let requestUrl = "gateway/" + gatewayCfg.VERSION_NO + "/getTransactionStatusById";
             let cnst = generateConstant(requestUrl);
             // Remember, the format of json and the order of json attributes must be the same as the SDK specifications.
             // The sorting rules of Json attribute data are arranged from [a-z]
@@ -245,10 +245,10 @@ export async function detailAsync(orderId, type) {
  */
 function getToken(callback) {
     if (isnull(EncryptAuthInfo)) {
-        let authString = stringToBase64(`${gggpayCfg.CLIENT_ID}:${gggpayCfg.CLIENT_SECRET}`);
+        let authString = stringToBase64(`${gatewayCfg.CLIENT_ID}:${gatewayCfg.CLIENT_SECRET}`);
         EncryptAuthInfo = publicEncrypt(authString);
     }
-    post("gggpay/" + gggpayCfg.VERSION_NO + "/createToken", "", "", {
+    post("gateway/" + gatewayCfg.VERSION_NO + "/createToken", "", "", {
         data: EncryptAuthInfo,
     }, "", "", function (result) {
         if (isnull(result) || isnull(result.encryptedToken) && result.code !== 1) {
@@ -268,10 +268,10 @@ function getToken(callback) {
  * @returns 
  */
 function post(url, token, signature, json, nonceStr, timestamp, callback) {
-    if (gggpayCfg.BASE_URL.endsWith("/")) {
-        url = gggpayCfg.BASE_URL + url;
+    if (gatewayCfg.BASE_URL.endsWith("/")) {
+        url = gatewayCfg.BASE_URL + url;
     } else {
-        url = gggpayCfg.BASE_URL + '/' + url;
+        url = gatewayCfg.BASE_URL + '/' + url;
     }
     let options = {
         method: "POST"
@@ -355,7 +355,7 @@ function publicEncrypt(data) {
     let msg = typeof data == 'object' ? JSON.stringify(data) : data;
     const encryptBuffer = crypto.publicEncrypt(
         {
-            key: gggpayCfg.SERVER_PUB_KEY,
+            key: gatewayCfg.SERVER_PUB_KEY,
             padding: crypto.constants.RSA_PKCS1_PADDING, // 填充方式，需与私钥解密一致
         },
         stringToBytes(msg),
@@ -373,7 +373,7 @@ function privateDecrypt(encryptData) {
     let encryptBuffer = hexToBytes(encryptData);
     let msgBuffer = crypto.privateDecrypt(
         {
-            key: gggpayCfg.PRIVATE_KEY,
+            key: gatewayCfg.PRIVATE_KEY,
             padding: crypto.constants.RSA_PKCS1_PADDING, // 填充方式，需与公钥加密一致
         },
         encryptBuffer
@@ -389,10 +389,10 @@ function privateDecrypt(encryptData) {
  * @returns The encrypted data is returned in hexadecimal
  */
 function symEncrypt(message) {
-    let iv = generateIv(gggpayCfg.CLIENT_SYMMETRIC_KEY);
+    let iv = generateIv(gatewayCfg.CLIENT_SYMMETRIC_KEY);
     let cipheriv = crypto.createCipheriv(
         ALGORITHM,
-        stringToBytes(gggpayCfg.CLIENT_SYMMETRIC_KEY),
+        stringToBytes(gatewayCfg.CLIENT_SYMMETRIC_KEY),
         iv,
     );
     // 更新加密数据
@@ -411,10 +411,10 @@ function symEncrypt(message) {
 export function symDecrypt(encryptedMessage) {
     let encryptedText = hexToBytes(encryptedMessage);
     // 解密
-    let iv = generateIv(gggpayCfg.CLIENT_SYMMETRIC_KEY);
+    let iv = generateIv(gatewayCfg.CLIENT_SYMMETRIC_KEY);
     const decipheriv = crypto.createDecipheriv(
         ALGORITHM,
-        stringToBytes(gggpayCfg.CLIENT_SYMMETRIC_KEY),
+        stringToBytes(gatewayCfg.CLIENT_SYMMETRIC_KEY),
         iv,
     );
     // 更新解密数据
@@ -435,7 +435,7 @@ function sign(data) {
     sign.update(encryptBuffer);
     sign.end();
     const signatureBuffer = sign.sign({
-        key: gggpayCfg.PRIVATE_KEY
+        key: gatewayCfg.PRIVATE_KEY
     });
     let base64 = bytesToBase64(signatureBuffer);
     return base64;
@@ -452,7 +452,7 @@ function verify(data, signature) {
     let encryptBuffer = stringToBytes(data);
     verify.update(encryptBuffer);
     verify.end();
-    return verify.verify(gggpayCfg.SERVER_PUB_KEY, signature, 'base64');
+    return verify.verify(gatewayCfg.SERVER_PUB_KEY, signature, 'base64');
 }
 
 /**

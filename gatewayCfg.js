@@ -8,7 +8,7 @@
 export const VERSION_NO = "v1";
 
 /**
- * GGGPay Api Url
+ * gateway Api Url
  */
 export const BASE_URL = "http://localhost:3000/";
 
@@ -75,8 +75,8 @@ export const PRIVATE_KEY = "-----BEGIN RSA PRIVATE KEY-----\n" +
 
 /**
  * initialize this configuration
- * @param {*} verNo GGGPay Api Version Number
- * @param {*} apiUrl apiUrl GGGPay Api Url
+ * @param {*} verNo gateway Api Version Number
+ * @param {*} apiUrl apiUrl gateway Api Url
  * @param {*} appId appId in developer settings : App Id
  * @param {*} key key in developer settings : Key
  * @param {*} secret secret in developer settings : secret
